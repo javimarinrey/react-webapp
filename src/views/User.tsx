@@ -2,6 +2,6 @@ import React from "react";
 
 export default function UserView() {
     return (
-        <div>User</div>
+        <div><i className="bi bi-person-fill"></i> User</div>
     )
 }

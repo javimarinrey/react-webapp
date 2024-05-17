@@ -2,6 +2,6 @@ import React from "react";
 
 export default function HomeView() {
     return (
-        <div>Home</div>
+        <div><i className="bi bi-house-fill"></i> Home</div>
     )
 }
