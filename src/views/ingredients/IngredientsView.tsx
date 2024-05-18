@@ -22,9 +22,9 @@ export default function IngredientsView() {
     return (
         <div>
             <Accordion>
-            {ingredients.map((item)=> {
+            {ingredients.map((item, idx)=> {
                 return (
-                    <Accordion.Item eventKey={item.key}>
+                    <Accordion.Item eventKey={item.key} key={idx}>
                         <Accordion.Header>{item.header}</Accordion.Header>
                         <Accordion.Body>
                             {item.body}
