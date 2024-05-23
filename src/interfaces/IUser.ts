@@ -1,6 +1,6 @@
 export interface IUser {
     username: string;
-    isAuth: boolean;
+    isAuth: boolean | null;
 }
 
 export interface UserContextType {

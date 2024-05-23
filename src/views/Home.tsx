@@ -10,10 +10,7 @@ export default function HomeView() {
         <div>
             <div className="row">
                 <div className="col">Home</div>
-                <div className="col">
-                    {user.isAuth && <div>User OK</div>}
-                    {!user.isAuth && <Login />}
-                </div>
+                {!user.isAuth && <div className="col"><Login /></div>}
             </div>
         </div>
     )

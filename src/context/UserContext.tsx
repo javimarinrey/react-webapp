@@ -6,7 +6,7 @@ import {IUser, UserContextType} from "../interfaces/IUser";
 export const UserContext = React.createContext<UserContextType | null>(null);
 
 const UserProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
-    const initialUser: IUser = {username: '', isAuth: false};
+    const initialUser: IUser = {username: '', isAuth: null};
     const [user, setUser] = React.useState<IUser>(initialUser);
 
     useEffect(()=> {
@@ -15,7 +15,7 @@ const UserProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
             // TODO: Validar token
             setUser({...user, isAuth: true});
         } else {
-            setUser(initialUser);
+            setUser({...initialUser, isAuth: false});
         }
     },[]);
 

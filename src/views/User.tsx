@@ -2,6 +2,7 @@ import React from "react";
 import {UserContext} from "../context/UserContext";
 import {UserContextType} from "../interfaces/IUser";
 import {useNavigate} from "react-router-dom";
+import * as diagnostics_channel from "diagnostics_channel";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
@@ -13,6 +14,7 @@ export default function UserView() {
         navigate('/');
     }
 
+    if (user.isAuth === null) return null
     if (user.isAuth) {
         return (
             <div>
@@ -21,6 +23,6 @@ export default function UserView() {
             </div>
         )
     } else {
-        return null
+        return <div className="text-center">Usuario no autentificado</div>
     }
 }
