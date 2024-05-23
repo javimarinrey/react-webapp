@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import React, { MouseEventHandler, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { IUser, UserContextType } from "../interfaces/IUser";
 
 export default function Login() {
 
+    const navigate = useNavigate();
     const { user, saveUser } = React.useContext(UserContext) as UserContextType;
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -14,6 +15,7 @@ export default function Login() {
             localStorage.setItem('token', '11111');
             const user: IUser = { username: username, isAuth: true };
             saveUser(user)
+            navigate('/user');
         }
     }
 
