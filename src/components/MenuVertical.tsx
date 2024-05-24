@@ -44,7 +44,7 @@ export default function MenuVertical() {
                         </ul>
                         <form className="d-flex mt-3" role="search">
                             {user.isAuth && <button className="btn btn-danger" type="button" onClick={handlerSignOut}>Cerrar sessión</button>}
-                            {!user.isAuth && <button className="btn btn-danger" type="button" onClick={handlerSignIn}>Iniciar sessión</button>}
+                            {!user.isAuth && <button className="btn btn-light" type="button" onClick={handlerSignIn}><i className="bi bi-person-fill"></i>Iniciar sessión</button>}
                         </form>
                     </div>
                 </div>

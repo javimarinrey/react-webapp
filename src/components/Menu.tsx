@@ -33,7 +33,8 @@ export default function Menu() {
                     </Nav>
                     <Form className="d-flex">
                         {user.isAuth && <Button variant="danger" onClick={handlerSignOut}>Cerrar sessión</Button>}
-                        {!user.isAuth && <Button variant="light" onClick={handlerSignIn}>Iniciar sessión</Button>}
+                        {!user.isAuth && <Button variant="light" onClick={handlerSignIn}><i
+                            className="bi bi-person-fill"></i> Iniciar sessión</Button>}
                     </Form>
                 </Navbar.Collapse>
             </Container>
