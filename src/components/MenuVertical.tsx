@@ -1,8 +1,29 @@
+import {useLocation, useNavigate} from "react-router-dom";
+import React from "react";
+import {UserContext} from "../context/UserContext";
+import {UserContextType} from "../interfaces/IUser";
+
 export default function MenuVertical() {
+
+    const location = useLocation();
+    const {user, saveUser} = React.useContext(UserContext) as UserContextType;
+    const navigate = useNavigate();
+    const handlerSignOut = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        localStorage.removeItem('token');
+        saveUser({username: '', isAuth: false});
+        navigate('/');
+        navigate(0);
+    }
+    const handlerSignIn = () => {
+        navigate('/login');
+        navigate(0);
+    }
+
     return (
         <nav className="navbar bg-body-tertiary" data-bs-theme="dark">
             <div className="container-fluid">
-                <a className="navbar-brand" href="#">React-Bootstrap</a>
+                <a className="navbar-brand" href="/">React-Bootstrap</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -14,28 +35,16 @@ export default function MenuVertical() {
                     <div className="offcanvas-body">
                         <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                             <li className="nav-item">
-                                <a className="nav-link active" aria-current="page" href="#">Home</a>
+                                <a className="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
+                            {user.isAuth &&
                             <li className="nav-item">
-                                <a className="nav-link" href="#">Link</a>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <ul className="dropdown-menu">
-                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                    <li><a className="dropdown-item" href="#">Another action</a></li>
-                                    <li>
-                                        <hr className="dropdown-divider" />
-                                    </li>
-                                    <li><a className="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
-                            </li>
+                                <a className="nav-link" href="/user">User</a>
+                            </li>}
                         </ul>
                         <form className="d-flex mt-3" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                            {user.isAuth && <button className="btn btn-danger" type="button" onClick={handlerSignOut}>Cerrar sessión</button>}
+                            {!user.isAuth && <button className="btn btn-danger" type="button" onClick={handlerSignIn}>Iniciar sessión</button>}
                         </form>
                     </div>
                 </div>

@@ -1,30 +1,23 @@
 import React from "react";
-import {UserContext} from "../context/UserContext";
-import {UserContextType} from "../interfaces/IUser";
+import {UserContext} from "../../context/UserContext";
+import {UserContextType} from "../../interfaces/IUser";
 import {useNavigate} from "react-router-dom";
 import * as diagnostics_channel from "diagnostics_channel";
 import { Nav } from "react-bootstrap";
+import UserTabContacto from "./UserTabContacto";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
-    const navigate = useNavigate();
-    const handlerSignOut = (event:React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        localStorage.removeItem('token');
-        saveUser({username: '', isAuth: false});
-        navigate('/');
-    }
 
     if (user.isAuth === null) return null
     if (user.isAuth) {
         return (
             <div>
-                <button className="btn btn-danger" onClick={handlerSignOut}>Cerrar sessión</button>
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
                         <button className="nav-link active" id="datos-centro-tab" data-bs-toggle="tab"
                                 data-bs-target="#datos-centro-tab-pane" type="button" role="tab" aria-controls="datos-centro-tab-pane"
-                                aria-selected="true">Datos del centro
+                                aria-selected="true">Contacto
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -36,7 +29,13 @@ export default function UserView() {
                     <li className="nav-item" role="presentation">
                         <button className="nav-link" id="horarios-tab" data-bs-toggle="tab"
                                 data-bs-target="#horarios-tab-pane" type="button" role="tab"
-                                aria-controls="horarios-tab-pane" aria-selected="false">Horarios / precios
+                                aria-controls="horarios-tab-pane" aria-selected="false">Horarios
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link" id="precios-tab" data-bs-toggle="tab"
+                                data-bs-target="#precios-tab-pane" type="button" role="tab"
+                                aria-controls="precios-tab-pane" aria-selected="false">Precios
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -50,7 +49,7 @@ export default function UserView() {
                     <div className="tab-pane fade show active" id="datos-centro-tab-pane" role="tabpanel"
                          aria-labelledby="datos-centro-tab" tabIndex={0}>
                         <br/>
-                        Datos
+                        <UserTabContacto/>
                     </div>
                     <div className="tab-pane fade" id="pistas-tab-pane" role="tabpanel" aria-labelledby="pistas-tab"
                          tabIndex={0}>
@@ -61,6 +60,11 @@ export default function UserView() {
                          tabIndex={0}>
                         <br/>
                         Horarios
+                    </div>
+                    <div className="tab-pane fade" id="precios-tab-pane" role="tabpanel" aria-labelledby="precios-tab"
+                         tabIndex={0}>
+                        <br/>
+                        Precios
                     </div>
                     <div className="tab-pane fade" id="servicios-tab-pane" role="tabpanel" aria-labelledby="servicios-tab"
                          tabIndex={0}>
