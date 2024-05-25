@@ -29,7 +29,8 @@ export default function Menu() {
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to={'/'} active={'/' === location.pathname}>Home</Nav.Link>
                         {user.isAuth &&
-                            <Nav.Link as={Link} to={'/user'} active={'/user' === location.pathname}>User</Nav.Link>}
+                            <Nav.Link as={Link} to={'/user'} active={'/user' === location.pathname}><i
+                                className="bi bi-person-fill"></i> User</Nav.Link>}
                     </Nav>
                     <Form className="d-flex">
                         {user.isAuth && <Button variant="danger" onClick={handlerSignOut}>Cerrar sessión</Button>}

@@ -39,7 +39,7 @@ export default function MenuVertical() {
                             </li>
                             {user.isAuth &&
                             <li className="nav-item">
-                                <a className="nav-link" href="/user">User</a>
+                                <a className="nav-link" href="/user"><i className="bi bi-person-fill"></i> User</a>
                             </li>}
                         </ul>
                         <form className="d-flex mt-3" role="search">
