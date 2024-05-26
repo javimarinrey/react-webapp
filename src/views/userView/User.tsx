@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import * as diagnostics_channel from "diagnostics_channel";
 import { Nav } from "react-bootstrap";
 import UserTabCentro from "./UserTabCentro";
+import UserTabClubs from "./UserTabClubs";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
@@ -15,9 +16,15 @@ export default function UserView() {
             <div>
                 <ul className="nav nav-tabs" id="myTab" role="tablist">
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link active" id="datos-centro-tab" data-bs-toggle="tab"
+                        <button className="nav-link active" id="clubs-tab" data-bs-toggle="tab"
+                                data-bs-target="#clubs-tab-pane" type="button" role="tab" aria-controls="clubs-tab-pane"
+                                aria-selected="true"><i className="bi bi-shield-shaded"></i> Clubs
+                        </button>
+                    </li>
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link" id="datos-centro-tab" data-bs-toggle="tab"
                                 data-bs-target="#datos-centro-tab-pane" type="button" role="tab" aria-controls="datos-centro-tab-pane"
-                                aria-selected="true"><i className="bi bi-shield-shaded"></i> Centro
+                                aria-selected="false"><i className="bi bi-shield-shaded"></i> Centro
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -54,7 +61,12 @@ export default function UserView() {
                     </li>
                 </ul>
                 <div className="tab-content" id="myTabContent">
-                    <div className="tab-pane fade show active" id="datos-centro-tab-pane" role="tabpanel"
+                    <div className="tab-pane fade show active" id="clubs-tab-pane" role="tabpanel"
+                         aria-labelledby="clubs-tab" tabIndex={0}>
+                        <br/>
+                        <UserTabClubs/>
+                    </div>
+                    <div className="tab-pane fade" id="datos-centro-tab-pane" role="tabpanel"
                          aria-labelledby="datos-centro-tab" tabIndex={0}>
                         <br/>
                         <UserTabCentro/>
