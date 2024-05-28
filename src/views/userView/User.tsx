@@ -4,8 +4,8 @@ import {UserContextType} from "../../interfaces/IUser";
 import {useNavigate} from "react-router-dom";
 import * as diagnostics_channel from "diagnostics_channel";
 import { Nav } from "react-bootstrap";
-import UserTabCentro from "./UserTabCentro";
-import UserTabClubs from "./UserTabClubs";
+import UserTabCentro from "./tabs/UserTabCentro";
+import TabClubs from "./tabs/tabClubs/TabClubs";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
@@ -64,7 +64,7 @@ export default function UserView() {
                     <div className="tab-pane fade show active" id="clubs-tab-pane" role="tabpanel"
                          aria-labelledby="clubs-tab" tabIndex={0}>
                         <br/>
-                        <UserTabClubs/>
+                        <TabClubs/>
                     </div>
                     <div className="tab-pane fade" id="datos-centro-tab-pane" role="tabpanel"
                          aria-labelledby="datos-centro-tab" tabIndex={0}>

@@ -1,9 +1,10 @@
 import {Button, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import {IClub} from "../../interfaces/IClub";
-import ModalBase from "../../components/ModalBase";
+import {IClub} from "../../../../interfaces/IClub";
+import ModalBase from "../../../../components/ModalBase";
+import ClubModal from "./ClubModal";
 
-export default function UserTabClubs() {
+export default function TabClubs() {
 
     const [clubs, setClubs] = useState<IClub[]>([]);
     const [searchClub, setSearchClub] = useState<string>('');
@@ -57,7 +58,7 @@ export default function UserTabClubs() {
                 </thead>
                 <tbody>
                 {clubs.filter(item => item.name.indexOf(searchClub) > -1).map((club, index) =>
-                    <tr>
+                    <tr key={index}>
                         <td className="text-center">
                             <button className="btn btn-sm btn-primary me-1"><i className="bi bi-pencil-fill"></i>
                             </button>
@@ -74,18 +75,10 @@ export default function UserTabClubs() {
             </Table>
             {/*<Pagination>{items}</Pagination>*/}
 
-            <ModalClub title={'Club'} show={isShowModal} handleClose={(action)=>{
+            <ClubModal title={'Club'} show={isShowModal} handleClose={(action)=>{
+                console.log('click', action);
                 setIsShowModal(false);
-            }}></ModalClub>
+            }}></ClubModal>
         </div>
-    )
-}
-
-
-const ModalClub = (props:{title: string, show: boolean, handleClose: (action: string)=>void}) => {
-    return (
-        <ModalBase title={props.title} show={props.show} handleClose={props.handleClose}>
-            Body
-        </ModalBase>
     )
 }

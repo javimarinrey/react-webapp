@@ -16,10 +16,10 @@ export default function ModalBase(props:IPropsModalBase) {
             </Modal.Header>
             <Modal.Body>{props.children}</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={()=>props.handleClose}>
+                <Button variant="secondary" onClick={()=>props.handleClose('close')}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={()=>props.handleClose}>
+                <Button variant="primary" onClick={()=>props.handleClose('ok')}>
                     Save Changes
                 </Button>
             </Modal.Footer>
