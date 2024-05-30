@@ -3,14 +3,18 @@ import React, {useEffect, useState} from "react";
 import {IClub} from "../../../../interfaces/IClub";
 import ModalBase from "../../../../components/ModalBase";
 import ClubModal from "./ClubModal";
+import ModalConfirm from "../../../../components/ModalConfirm";
+import {IConfirm} from "../../../../interfaces/IConfirm";
+import axios from "axios";
 
 export default function TabClubs() {
-
+    const baseURL = "http://example.com/api";
     const initialClub: IClub = {id: 0, name: '', city: '', address: '', num_players: 0, num_teams: 0};
     const [clubs, setClubs] = useState<IClub[]>([]);
     const [searchClub, setSearchClub] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const [clubSelect, setClubSelect] = useState<IClub>(initialClub);
+    const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
 
     useEffect(() => {
         setClubs([
@@ -19,15 +23,32 @@ export default function TabClubs() {
     }, []);
 
 
-    let active = 2;
-    let items = [];
-    for (let number = 1; number <= 5; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active}>
-                {number}
-            </Pagination.Item>,
-        );
+
+    const deleteClub = (id: number) => {
+        axios.delete(baseURL, {})
+            .then((response)=> console.log('response deleteClub', response))
+            .catch(error => console.error(error.message))
     }
+
+    const createClub = (club: IClub) => {
+        axios.post(baseURL, club, {})
+            .then((response)=> console.log('response createClub', response))
+            .catch(error => console.error(error.message))
+    }
+
+    const updateClub = (club: IClub) => {
+        axios.put(baseURL, club, {})
+            .then((response)=> console.log('response updateClub', response))
+            .catch(error => console.error(error.message))
+    }
+
+    const getClubs = () => {
+        axios.get(baseURL, {})
+            .then((response)=> console.log('response getClubs', response))
+            .catch(error => console.error(error.message))
+    }
+
+
 
     return (
         <div>
@@ -66,7 +87,20 @@ export default function TabClubs() {
                                 setClubSelect(club);
                                 setIsShowModal(true);
                             } }><i className="bi bi-pencil-fill"></i></button>
-                            <button type="button" className="btn btn-sm btn-danger"><i className="bi bi-trash3"></i></button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={()=> {
+                                setConfirm({
+                                    message: `¿Deseas eliminar el club ${club.name}?`,
+                                    title: 'Eliminar club',
+                                    action: 'accept',
+                                    show: true,
+                                    handleClose: (action)=> {
+                                        if (action === 'ok') {
+                                            console.log('Elimando club..');
+                                        }
+                                        setConfirm({...confirm, show: false})
+                                    }
+                                })
+                            }}><i className="bi bi-trash3"></i></button>
                         </td>
                         <td>{club.name}</td>
                         <td>{club.address}</td>
@@ -77,12 +111,15 @@ export default function TabClubs() {
                 )}
                 </tbody>
             </Table>
-            {/*<Pagination>{items}</Pagination>*/}
+
 
             <ClubModal title={'Club'} show={isShowModal} handleClose={(action)=>{
                 console.log('click', action);
                 setIsShowModal(false);
             }} club={clubSelect}></ClubModal>
+
+            <ModalConfirm {...confirm}></ModalConfirm>
+
         </div>
     )
 }

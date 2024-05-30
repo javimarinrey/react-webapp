@@ -28,7 +28,7 @@ export default function ClubModal(props: {
 
     console.log('[ClubModal] club ', props.club)
     return (
-        <ModalBase title={props.title} show={props.show} handleClose={props.handleClose}>
+        <ModalBase title={props.title} show={props.show} handleClose={props.handleClose} action={clubTmp.id === 0 ? 'insert' : 'update'}>
             <Form>
                 <Form.Group className="mb-3">
                     <Form.Label>Name</Form.Label>

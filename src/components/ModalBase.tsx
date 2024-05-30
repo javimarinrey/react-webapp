@@ -6,6 +6,7 @@ export interface IPropsModalBase {
     title: string;
     show: boolean;
     handleClose: (action: string)=> void;
+    action: string;
 }
 
 export default function ModalBase(props:IPropsModalBase) {
@@ -20,7 +21,10 @@ export default function ModalBase(props:IPropsModalBase) {
                     Close
                 </Button>
                 <Button variant="primary" onClick={()=>props.handleClose('ok')}>
-                    Save Changes
+                    {props.action === 'insert' && <span>Insert</span>}
+                    {props.action === 'update' && <span>Update</span>}
+                    {props.action === 'delete' && <span>Delete</span>}
+                    {props.action === 'accept' && <span>Accept</span>}
                 </Button>
             </Modal.Footer>
         </Modal>
