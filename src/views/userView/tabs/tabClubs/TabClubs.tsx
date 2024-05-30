@@ -6,9 +6,11 @@ import ClubModal from "./ClubModal";
 
 export default function TabClubs() {
 
+    const initialClub: IClub = {id: 0, name: '', city: '', address: '', num_players: 0, num_teams: 0};
     const [clubs, setClubs] = useState<IClub[]>([]);
     const [searchClub, setSearchClub] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
+    const [clubSelect, setClubSelect] = useState<IClub>(initialClub);
 
     useEffect(() => {
         setClubs([
@@ -37,10 +39,10 @@ export default function TabClubs() {
                     aria-describedby="basic-addon2"
                     onChange={(e) => setSearchClub(e.target.value)}
                 />
-                <Button variant="dark" id="button-addon2">
-                    <i className="bi bi-search"></i> Buscar
-                </Button>
-                <Button variant="primary" id="button-addon2" onClick={()=> setIsShowModal(true)}>
+                <Button variant="primary" id="button-addon2" onClick={()=> {
+                    setClubSelect(initialClub);
+                    setIsShowModal(true);
+                }}>
                     <i className="bi bi-plus-lg"></i> Añadir
                 </Button>
             </InputGroup>
@@ -60,9 +62,11 @@ export default function TabClubs() {
                 {clubs.filter(item => item.name.indexOf(searchClub) > -1).map((club, index) =>
                     <tr key={index}>
                         <td className="text-center">
-                            <button className="btn btn-sm btn-primary me-1"><i className="bi bi-pencil-fill"></i>
-                            </button>
-                            <button className="btn btn-sm btn-danger"><i className="bi bi-trash3"></i></button>
+                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={()=> {
+                                setClubSelect(club);
+                                setIsShowModal(true);
+                            } }><i className="bi bi-pencil-fill"></i></button>
+                            <button type="button" className="btn btn-sm btn-danger"><i className="bi bi-trash3"></i></button>
                         </td>
                         <td>{club.name}</td>
                         <td>{club.address}</td>
@@ -78,7 +82,7 @@ export default function TabClubs() {
             <ClubModal title={'Club'} show={isShowModal} handleClose={(action)=>{
                 console.log('click', action);
                 setIsShowModal(false);
-            }}></ClubModal>
+            }} club={clubSelect}></ClubModal>
         </div>
     )
 }
