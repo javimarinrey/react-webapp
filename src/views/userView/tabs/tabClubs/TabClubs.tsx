@@ -8,8 +8,8 @@ import {IConfirm} from "../../../../interfaces/IConfirm";
 import axios from "axios";
 
 export default function TabClubs() {
-    const baseURL = "http://example.com/api";
-    const initialClub: IClub = {id: 0, name: '', city: '', address: '', num_players: 0, num_teams: 0};
+    const baseURL = "http://localhost:3000/api";
+    const initialClub: IClub = {id: 0, name: '', city: 0, address: '', num_players: 0, num_teams: 0};
     const [clubs, setClubs] = useState<IClub[]>([]);
     const [searchClub, setSearchClub] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -17,34 +17,31 @@ export default function TabClubs() {
     const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
 
     useEffect(() => {
-        setClubs([
-            {id: 1, name: 'club1', address: 'address1', city: 'bcn', num_teams: 10, num_players: 20}
-        ])
+        getClubs()
     }, []);
 
 
 
     const deleteClub = (id: number) => {
-        axios.delete(baseURL, {})
-            .then((response)=> console.log('response deleteClub', response))
+        axios.delete(baseURL+'/club/'+id, {})
+            .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
+            .finally(()=> {
+                setConfirm({...confirm, show: false});
+                getClubs();
+            })
     }
 
-    const createClub = (club: IClub) => {
-        axios.post(baseURL, club, {})
-            .then((response)=> console.log('response createClub', response))
-            .catch(error => console.error(error.message))
-    }
-
-    const updateClub = (club: IClub) => {
-        axios.put(baseURL, club, {})
-            .then((response)=> console.log('response updateClub', response))
-            .catch(error => console.error(error.message))
-    }
 
     const getClubs = () => {
-        axios.get(baseURL, {})
-            .then((response)=> console.log('response getClubs', response))
+        axios.get(baseURL+'/club', {})
+            .then((response)=> {
+                if (response.status === 200) {
+                    setClubs(response.data);
+                } else {
+                    setClubs([]);
+                }
+            })
             .catch(error => console.error(error.message))
     }
 
@@ -95,9 +92,8 @@ export default function TabClubs() {
                                     show: true,
                                     handleClose: (action)=> {
                                         if (action === 'ok') {
-                                            console.log('Elimando club..');
+                                            deleteClub(club.id);
                                         }
-                                        setConfirm({...confirm, show: false})
                                     }
                                 })
                             }}><i className="bi bi-trash3"></i></button>
@@ -114,8 +110,10 @@ export default function TabClubs() {
 
 
             <ClubModal title={'Club'} show={isShowModal} handleClose={(action)=>{
-                console.log('click', action);
                 setIsShowModal(false);
+                if (action === 'ok') {
+                    getClubs();
+                }
             }} club={clubSelect}></ClubModal>
 
             <ModalConfirm {...confirm}></ModalConfirm>
