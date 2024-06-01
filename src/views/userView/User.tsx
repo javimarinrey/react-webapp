@@ -6,6 +6,7 @@ import * as diagnostics_channel from "diagnostics_channel";
 import { Nav } from "react-bootstrap";
 import UserTabCentro from "./tabs/UserTabCentro";
 import TabClubs from "./tabs/tabClubs/TabClubs";
+import TabEquipos from "./tabs/tabEquipos/TabEquipos";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
@@ -22,9 +23,9 @@ export default function UserView() {
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="datos-centro-tab" data-bs-toggle="tab"
-                                data-bs-target="#datos-centro-tab-pane" type="button" role="tab" aria-controls="datos-centro-tab-pane"
-                                aria-selected="false"><i className="bi bi-shield-shaded"></i> Centro
+                        <button className="nav-link" id="equipos-tab" data-bs-toggle="tab"
+                                data-bs-target="#equipos-tab-pane" type="button" role="tab" aria-controls="equipos-tab-pane"
+                                aria-selected="false"><i className="bi bi-shield-shaded"></i> Equipos
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -66,10 +67,10 @@ export default function UserView() {
                         <br/>
                         <TabClubs/>
                     </div>
-                    <div className="tab-pane fade" id="datos-centro-tab-pane" role="tabpanel"
-                         aria-labelledby="datos-centro-tab" tabIndex={0}>
+                    <div className="tab-pane fade" id="equipos-tab-pane" role="tabpanel"
+                         aria-labelledby="equipos-tab" tabIndex={0}>
                         <br/>
-                        <UserTabCentro/>
+                        <TabEquipos/>
                     </div>
                     <div className="tab-pane fade" id="pistas-tab-pane" role="tabpanel" aria-labelledby="pistas-tab"
                          tabIndex={0}>
@@ -94,7 +95,7 @@ export default function UserView() {
                     <div className="tab-pane fade" id="cuenta-tab-pane" role="tabpanel" aria-labelledby="cuenta-tab"
                          tabIndex={0}>
                         <br/>
-                        Mi cuenta
+                        <UserTabCentro/>
                     </div>
                 </div>
             </div>
