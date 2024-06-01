@@ -11,7 +11,7 @@ export interface IPropsModalBase {
 
 export default function ModalBase(props:IPropsModalBase) {
     return (
-        <Modal show={props.show} onHide={()=>props.handleClose}>
+        <Modal show={props.show} onHide={()=>props.handleClose('close')}>
             <Modal.Header closeButton>
                 <Modal.Title>{props.title}</Modal.Title>
             </Modal.Header>

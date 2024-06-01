@@ -14,19 +14,21 @@ export default function TabClubs() {
     const [searchClub, setSearchClub] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
     const [clubSelect, setClubSelect] = useState<IClub>(initialClub);
-    const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
+    const [confirm, setConfirm] = useState<IConfirm>({
+        title: '', action: 'accept', show: false, handleClose: () => {
+        }, message: ''
+    });
 
     useEffect(() => {
         getClubs()
     }, []);
 
 
-
     const deleteClub = (id: number) => {
-        axios.delete(baseURL+'/club/'+id, {})
-            .then((response)=> console.log(response))
+        axios.delete(baseURL + '/club/' + id, {})
+            .then((response) => console.log(response))
             .catch(error => console.error(error.message))
-            .finally(()=> {
+            .finally(() => {
                 setConfirm({...confirm, show: false});
                 getClubs();
             })
@@ -34,8 +36,8 @@ export default function TabClubs() {
 
 
     const getClubs = () => {
-        axios.get(baseURL+'/club', {})
-            .then((response)=> {
+        axios.get(baseURL + '/club', {})
+            .then((response) => {
                 if (response.status === 200) {
                     setClubs(response.data);
                 } else {
@@ -44,7 +46,6 @@ export default function TabClubs() {
             })
             .catch(error => console.error(error.message))
     }
-
 
 
     return (
@@ -57,7 +58,12 @@ export default function TabClubs() {
                     aria-describedby="basic-addon2"
                     onChange={(e) => setSearchClub(e.target.value)}
                 />
-                <Button variant="primary" id="button-addon2" onClick={()=> {
+                <Button type="button" variant="dark" id="button-addon2" onClick={() => {
+                getClubs()
+            }}>
+                <i className="bi bi-search"></i> Buscar
+            </Button>
+                <Button type="button" variant="primary" id="button-addon2" onClick={() => {
                     setClubSelect(initialClub);
                     setIsShowModal(true);
                 }}>
@@ -80,20 +86,21 @@ export default function TabClubs() {
                 {clubs.filter(item => item.name.indexOf(searchClub) > -1).map((club, index) =>
                     <tr key={index}>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={()=> {
+                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={() => {
                                 setClubSelect(club);
                                 setIsShowModal(true);
-                            } }><i className="bi bi-pencil-fill"></i></button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={()=> {
+                            }}><i className="bi bi-pencil-fill"></i></button>
+                            <button type="button" className="btn btn-sm btn-danger" onClick={() => {
                                 setConfirm({
                                     message: `¿Deseas eliminar el club ${club.name}?`,
                                     title: 'Eliminar club',
                                     action: 'accept',
                                     show: true,
-                                    handleClose: (action)=> {
+                                    handleClose: async (action) => {
                                         if (action === 'ok') {
-                                            deleteClub(club.id);
+                                            await deleteClub(club.id);
                                         }
+                                        setConfirm({...confirm, show: false});
                                     }
                                 })
                             }}><i className="bi bi-trash3"></i></button>
@@ -109,7 +116,7 @@ export default function TabClubs() {
             </Table>
 
 
-            <ClubModal title={'Club'} show={isShowModal} handleClose={(action)=>{
+            <ClubModal title={'Club'} show={isShowModal} handleClose={(action) => {
                 setIsShowModal(false);
                 if (action === 'ok') {
                     getClubs();
