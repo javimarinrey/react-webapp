@@ -4,7 +4,7 @@ import {Form} from "react-bootstrap";
 import CitiesSelect from "../../../../components/CitiesSelect";
 import {IClub} from "../../../../interfaces/IClub";
 import axios from "axios";
-import {IEquipo} from "../../../../interfaces/IEquipo";
+import {ITeam} from "../../../../interfaces/ITeam";
 import {IPlayer} from "../../../../interfaces/IPlayer";
 
 export default function PlayerModal(props: {
@@ -16,7 +16,7 @@ export default function PlayerModal(props: {
 
     const baseURL = "http://localhost:3000/api";
     const [playerTmp, setPlayerTmp] = useState<IPlayer>(props.player)
-    const [teams, setTeams] = useState<IEquipo[]>([]);
+    const [teams, setTeams] = useState<ITeam[]>([]);
 
     useEffect(() => {
         if (props.show) {

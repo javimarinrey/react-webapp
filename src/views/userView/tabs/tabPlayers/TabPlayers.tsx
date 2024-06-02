@@ -6,7 +6,7 @@ import PlayerModal from "./PlayerModal";
 import ModalConfirm from "../../../../components/ModalConfirm";
 import {IConfirm} from "../../../../interfaces/IConfirm";
 import axios from "axios";
-import {IEquipo} from "../../../../interfaces/IEquipo";
+import {ITeam} from "../../../../interfaces/ITeam";
 import {IPlayer} from "../../../../interfaces/IPlayer";
 
 export default function TabPlayers() {

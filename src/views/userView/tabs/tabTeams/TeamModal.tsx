@@ -4,22 +4,22 @@ import {Form} from "react-bootstrap";
 import CitiesSelect from "../../../../components/CitiesSelect";
 import {IClub} from "../../../../interfaces/IClub";
 import axios from "axios";
-import {IEquipo} from "../../../../interfaces/IEquipo";
+import {ITeam} from "../../../../interfaces/ITeam";
 
-export default function EquipoModal(props: {
+export default function TeamModal(props: {
     title: string,
     show: boolean,
     handleClose: (action: string) => void,
-    equipo: IEquipo
+    team: ITeam
 }) {
 
     const baseURL = "http://localhost:3000/api";
-    const [equipoTmp, setEquipoTmp] = useState<IEquipo>(props.equipo)
+    const [equipoTmp, setEquipoTmp] = useState<ITeam>(props.team)
     const [clubs, setClubs] = useState<IClub[]>([]);
 
     useEffect(() => {
         if (props.show) {
-            setEquipoTmp(props.equipo)
+            setEquipoTmp(props.team)
             getClubs();
         }
         return () => {
@@ -40,14 +40,14 @@ export default function EquipoModal(props: {
             .catch(error => console.error(error.message))
     }
 
-    const createEquipo = (equipo: IEquipo) => {
+    const createEquipo = (equipo: ITeam) => {
         axios.post(baseURL+'/equipo', equipo, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
             .finally(()=> props.handleClose('ok'));
     }
 
-    const updateEquipo = (equipo: IEquipo) => {
+    const updateEquipo = (equipo: ITeam) => {
         axios.put(baseURL+'/equipo/'+equipo.id, equipo, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))

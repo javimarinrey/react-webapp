@@ -6,7 +6,7 @@ import * as diagnostics_channel from "diagnostics_channel";
 import { Nav } from "react-bootstrap";
 import UserTabCentro from "./tabs/UserTabCentro";
 import TabClubs from "./tabs/tabClubs/TabClubs";
-import TabEquipos from "./tabs/tabEquipos/TabEquipos";
+import TabTeams from "./tabs/tabTeams/TabTeams";
 import TabPlayers from "./tabs/tabPlayers/TabPlayers";
 
 export default function UserView() {
@@ -71,7 +71,7 @@ export default function UserView() {
                     <div className="tab-pane fade" id="equipos-tab-pane" role="tabpanel"
                          aria-labelledby="equipos-tab" tabIndex={0}>
                         <br/>
-                        {tabActive === 'equipos' && <TabEquipos/>}
+                        {tabActive === 'equipos' && <TabTeams/>}
                     </div>
                     <div className="tab-pane fade" id="players-tab-pane" role="tabpanel" aria-labelledby="players-tab"
                          tabIndex={0}>

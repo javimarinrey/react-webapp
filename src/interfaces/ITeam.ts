@@ -1,4 +1,4 @@
-export interface IEquipo {
+export interface ITeam {
     id: number;
     name: string;
     club_id: number;

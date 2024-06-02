@@ -1,46 +1,44 @@
 import {Button, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import {IClub} from "../../../../interfaces/IClub";
-import ModalBase from "../../../../components/ModalBase";
-import EquipoModal from "./EquipoModal";
+import TeamModal from "./TeamModal";
 import ModalConfirm from "../../../../components/ModalConfirm";
 import {IConfirm} from "../../../../interfaces/IConfirm";
 import axios from "axios";
-import {IEquipo} from "../../../../interfaces/IEquipo";
+import {ITeam} from "../../../../interfaces/ITeam";
 
-export default function TabEquipos() {
+export default function TabTeams() {
     const baseURL = "http://localhost:3000/api";
-    const initialEquipo: IEquipo = {id: 0, name: '', club_id: 0, club_name: '', num_players: 0};
-    const [equipos, setEquipos] = useState<IEquipo[]>([]);
-    const [searchEquipo, setSearchEquipo] = useState<string>('');
+    const initialTeam: ITeam = {id: 0, name: '', club_id: 0, club_name: '', num_players: 0};
+    const [teams, setTeams] = useState<ITeam[]>([]);
+    const [searchTeam, setSearchTeam] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    const [equipoSelect, setEquipoSelect] = useState<IEquipo>(initialEquipo);
+    const [teamSelect, setTeamSelect] = useState<ITeam>(initialTeam);
     const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
 
     useEffect(() => {
-        getEquipos()
+        getTeams()
     }, []);
 
 
 
-    const deleteEquipo = (id: number) => {
-        axios.delete(baseURL+'/equipo/'+id, {})
+    const deleteTeam = (id: number) => {
+        axios.delete(baseURL+'/team/'+id, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
             .finally(()=> {
                 setConfirm({...confirm, show: false});
-                getEquipos();
+                getTeams();
             })
     }
 
 
-    const getEquipos = () => {
-        axios.get(baseURL+'/equipo', {})
+    const getTeams = () => {
+        axios.get(baseURL+'/team', {})
             .then((response)=> {
                 if (response.status === 200) {
-                    setEquipos(response.data);
+                    setTeams(response.data);
                 } else {
-                    setEquipos([]);
+                    setTeams([]);
                 }
             })
             .catch(error => console.error(error.message))
@@ -56,15 +54,15 @@ export default function TabEquipos() {
                     placeholder="Buscar equipo"
                     aria-label="Buscar equipo"
                     aria-describedby="basic-addon2"
-                    onChange={(e) => setSearchEquipo(e.target.value)}
+                    onChange={(e) => setSearchTeam(e.target.value)}
                 />
                 <Button type="button" variant="dark" id="button-addon2" onClick={() => {
-                    getEquipos()
+                    getTeams()
                 }}>
                     <i className="bi bi-search"></i> Buscar
                 </Button>
                 <Button variant="primary" id="button-addon2" onClick={()=> {
-                    setEquipoSelect(initialEquipo);
+                    setTeamSelect(initialTeam);
                     setIsShowModal(true);
                 }}>
                     <i className="bi bi-plus-lg"></i> Añadir
@@ -81,43 +79,43 @@ export default function TabEquipos() {
                 </tr>
                 </thead>
                 <tbody>
-                {equipos.filter(item => item.name.indexOf(searchEquipo) > -1).map((equipo, index) =>
+                {teams.filter(item => item.name.indexOf(searchTeam) > -1).map((team, index) =>
                     <tr key={index}>
                         <td className="text-center">
                             <button type="button" className="btn btn-sm btn-primary me-1" onClick={()=> {
-                                setEquipoSelect(equipo);
+                                setTeamSelect(team);
                                 setIsShowModal(true);
                             } }><i className="bi bi-pencil-fill"></i></button>
                             <button type="button" className="btn btn-sm btn-danger" onClick={()=> {
                                 setConfirm({
-                                    message: `¿Deseas eliminar el equipo ${equipo.name}?`,
+                                    message: `¿Deseas eliminar el equipo ${team.name}?`,
                                     title: 'Eliminar equipo',
                                     action: 'accept',
                                     show: true,
                                     handleClose: async (action) => {
                                         if (action === 'ok') {
-                                            await deleteEquipo(equipo.id);
+                                            await deleteTeam(team.id);
                                         }
                                         setConfirm({...confirm, show: false});
                                     }
                                 })
                             }}><i className="bi bi-trash3"></i></button>
                         </td>
-                        <td>{equipo.name}</td>
-                        <td>{equipo.club_name}</td>
-                        <td className="text-center">{equipo.num_players}</td>
+                        <td>{team.name}</td>
+                        <td>{team.club_name}</td>
+                        <td className="text-center">{team.num_players}</td>
                     </tr>
                 )}
                 </tbody>
             </Table>
 
 
-            <EquipoModal title={'Club'} show={isShowModal} handleClose={(action)=>{
+            <TeamModal title={'Club'} show={isShowModal} handleClose={(action)=>{
                 setIsShowModal(false);
                 if (action === 'ok') {
-                    getEquipos();
+                    getTeams();
                 }
-            }} equipo={equipoSelect}></EquipoModal>
+            }} team={teamSelect}></TeamModal>
 
             <ModalConfirm {...confirm}></ModalConfirm>
 
