@@ -41,14 +41,14 @@ export default function TeamModal(props: {
     }
 
     const createEquipo = (equipo: ITeam) => {
-        axios.post(baseURL+'/equipo', equipo, {})
+        axios.post(baseURL+'/team', equipo, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
             .finally(()=> props.handleClose('ok'));
     }
 
     const updateEquipo = (equipo: ITeam) => {
-        axios.put(baseURL+'/equipo/'+equipo.id, equipo, {})
+        axios.put(baseURL+'/team/'+equipo.id, equipo, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
             .finally(()=> props.handleClose('ok'));

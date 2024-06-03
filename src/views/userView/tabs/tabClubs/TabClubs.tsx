@@ -1,4 +1,4 @@
-import {Button, Form, InputGroup, Pagination, Table} from "react-bootstrap";
+import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {IClub} from "../../../../interfaces/IClub";
 import ModalBase from "../../../../components/ModalBase";
@@ -74,7 +74,7 @@ export default function TabClubs() {
             <Table striped bordered hover size="sm">
                 <thead>
                 <tr>
-                    <th style={{width: '100px'}} className="text-center">#</th>
+                    <th style={{width: '70px'}} className="text-center">#</th>
                     <th>Nombre</th>
                     <th>Dirección</th>
                     <th>Ciudad</th>
@@ -86,24 +86,32 @@ export default function TabClubs() {
                 {clubs.filter(item => item.name.indexOf(searchClub) > -1).map((club, index) =>
                     <tr key={index}>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={() => {
-                                setClubSelect(club);
-                                setIsShowModal(true);
-                            }}><i className="bi bi-pencil-fill"></i></button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={() => {
-                                setConfirm({
-                                    message: `¿Deseas eliminar el club ${club.name}?`,
-                                    title: 'Eliminar club',
-                                    action: 'accept',
-                                    show: true,
-                                    handleClose: async (action) => {
-                                        if (action === 'ok') {
-                                            await deleteClub(club.id);
-                                        }
-                                        setConfirm({...confirm, show: false});
-                                    }
-                                })
-                            }}><i className="bi bi-trash3"></i></button>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
+                                    <i className="bi bi-gear-fill"></i>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={()=>{
+                                        setClubSelect(club);
+                                        setIsShowModal(true);
+                                    }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{
+                                        setConfirm({
+                                            message: `¿Deseas eliminar el club ${club.name}?`,
+                                            title: 'Eliminar club',
+                                            action: 'accept',
+                                            show: true,
+                                            handleClose: async (action) => {
+                                                if (action === 'ok') {
+                                                    await deleteClub(club.id);
+                                                }
+                                                setConfirm({...confirm, show: false});
+                                            }
+                                        })
+                                    }}><i className="bi bi-trash3"></i> Eliminar</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </td>
                         <td>{club.name}</td>
                         <td>{club.address}</td>

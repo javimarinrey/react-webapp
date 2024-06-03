@@ -1,4 +1,4 @@
-import {Button, Form, InputGroup, Pagination, Table} from "react-bootstrap";
+import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import TeamModal from "./TeamModal";
 import ModalConfirm from "../../../../components/ModalConfirm";
@@ -72,7 +72,7 @@ export default function TabTeams() {
             <Table striped bordered hover size="sm">
                 <thead>
                 <tr>
-                    <th style={{width: '100px'}} className="text-center">#</th>
+                    <th style={{width: '70px'}} className="text-center">#</th>
                     <th>Nombre</th>
                     <th>Club</th>
                     <th style={{width: '120px'}} className="text-center"># Jugadores</th>
@@ -82,24 +82,32 @@ export default function TabTeams() {
                 {teams.filter(item => item.name.indexOf(searchTeam) > -1).map((team, index) =>
                     <tr key={index}>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={()=> {
-                                setTeamSelect(team);
-                                setIsShowModal(true);
-                            } }><i className="bi bi-pencil-fill"></i></button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={()=> {
-                                setConfirm({
-                                    message: `¿Deseas eliminar el equipo ${team.name}?`,
-                                    title: 'Eliminar equipo',
-                                    action: 'accept',
-                                    show: true,
-                                    handleClose: async (action) => {
-                                        if (action === 'ok') {
-                                            await deleteTeam(team.id);
-                                        }
-                                        setConfirm({...confirm, show: false});
-                                    }
-                                })
-                            }}><i className="bi bi-trash3"></i></button>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
+                                    <i className="bi bi-gear-fill"></i>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={()=>{
+                                        setTeamSelect(team);
+                                        setIsShowModal(true);
+                                    }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{
+                                        setConfirm({
+                                            message: `¿Deseas eliminar el equipo ${team.name}?`,
+                                            title: 'Eliminar equipo',
+                                            action: 'accept',
+                                            show: true,
+                                            handleClose: async (action) => {
+                                                if (action === 'ok') {
+                                                    await deleteTeam(team.id);
+                                                }
+                                                setConfirm({...confirm, show: false});
+                                            }
+                                        })
+                                    }}><i className="bi bi-trash3"></i> Eliminar</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </td>
                         <td>{team.name}</td>
                         <td>{team.club_name}</td>

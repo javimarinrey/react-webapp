@@ -1,4 +1,4 @@
-import {Button, Form, InputGroup, Pagination, Table} from "react-bootstrap";
+import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
 import {IClub} from "../../../../interfaces/IClub";
 import ModalBase from "../../../../components/ModalBase";
@@ -85,24 +85,32 @@ export default function TabPlayers() {
                 {players.filter(item => item.last_name.indexOf(searchPlayer) > -1).map((player, index) =>
                     <tr key={index}>
                         <td className="text-center">
-                            <button type="button" className="btn btn-sm btn-primary me-1" onClick={()=> {
-                                setPlayerSelect(player);
-                                setIsShowModal(true);
-                            } }><i className="bi bi-pencil-fill"></i></button>
-                            <button type="button" className="btn btn-sm btn-danger" onClick={()=> {
-                                setConfirm({
-                                    message: `¿Deseas eliminar el jugador ${player.first_name + ' ' + player.last_name}?`,
-                                    title: 'Eliminar jugador',
-                                    action: 'accept',
-                                    show: true,
-                                    handleClose: async (action) => {
-                                        if (action === 'ok') {
-                                            await deletePlayer(player.id);
-                                        }
-                                        setConfirm({...confirm, show:false})
-                                    }
-                                })
-                            }}><i className="bi bi-trash3"></i></button>
+                            <Dropdown>
+                                <Dropdown.Toggle variant="outline-secondary" id="dropdown-basic" size="sm">
+                                    <i className="bi bi-gear-fill"></i>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu>
+                                    <Dropdown.Item onClick={()=>{
+                                        setPlayerSelect(player);
+                                        setIsShowModal(true);
+                                    }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{
+                                        setConfirm({
+                                            message: `¿Deseas eliminar el jugador ${player.first_name}? ${player.last_name}`,
+                                            title: 'Eliminar jugador',
+                                            action: 'accept',
+                                            show: true,
+                                            handleClose: async (action) => {
+                                                if (action === 'ok') {
+                                                    await deletePlayer(player.id);
+                                                }
+                                                setConfirm({...confirm, show: false});
+                                            }
+                                        })
+                                    }}><i className="bi bi-trash3"></i> Eliminar</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </td>
                         <td>{player.first_name}</td>
                         <td>{player.last_name}</td>

@@ -30,7 +30,7 @@ export default function PlayerModal(props: {
     console.log('[PlayerModal] playerTmp ', playerTmp)
 
     const getTeams= () => {
-        axios.get(baseURL+'/equipo', {})
+        axios.get(baseURL+'/team', {})
             .then((response)=> {
                 if (response.status === 200) {
                     setTeams(response.data);

@@ -24,21 +24,21 @@ export default function Register() {
                     <label htmlFor="username" className="form-label">Nombre de usuario</label>
                     <div className="input-group mb-3">
                         <span className="input-group-text"><i className="bi bi-person-fill"></i></span>
-                    <input type="text" className="form-control" placeholder="" onChange={(e) => { setUsername(e.target.value) }} />
+                    <input id="username" type="text" className="form-control" placeholder="" onChange={(e) => { setUsername(e.target.value) }} />
                     </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="email" className="form-label">E-mail</label>
                     <div className="input-group mb-3">
                         <span className="input-group-text"><i className="bi bi-envelope-at-fill"></i></span>
-                    <input type="email" className="form-control" placeholder="" onChange={(e) => { setUsername(e.target.value) }} />
+                    <input id="email" type="email" className="form-control" placeholder="" onChange={(e) => { setUsername(e.target.value) }} />
                     </div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="password" className="form-label">Contraseña</label>
                     <div className="input-group mb-3">
                         <span className="input-group-text"><i className="bi bi-key-fill"></i></span>
-                    <input type="password" className="form-control" placeholder="" onChange={(e) => { setPassword(e.target.value) }} />
+                    <input id="password" type="password" className="form-control" placeholder="" onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
                 </div>
                 <div className="d-grid gap-2">
