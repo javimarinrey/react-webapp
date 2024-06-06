@@ -1,72 +1,68 @@
-import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
+import {Button, Dropdown, Form, InputGroup, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import {IClub} from "../../../../interfaces/IClub";
-import ModalBase from "../../../../components/ModalBase";
-import PlayerModal from "./PlayerModal";
-import ModalConfirm from "../../../../components/ModalConfirm";
 import {IConfirm} from "../../../../interfaces/IConfirm";
+import {ITournament} from "../../../../interfaces/ITournament";
 import axios from "axios";
-import {ITeam} from "../../../../interfaces/ITeam";
-import {IPlayer} from "../../../../interfaces/IPlayer";
+import ModalConfirm from "../../../../components/ModalConfirm";
+import TournamentModal from "./TournamentModal";
+import {useNavigate} from "react-router-dom";
 
-export default function TabPlayers() {
+export default function TabTournaments() {
+
     const baseURL = "http://localhost:3000/api";
-    const initialPlayer: IPlayer = {id: 0, first_name: '', last_name: '', team_id: 0, team_name: '', elo: 0, num_fed: ''};
-    const [players, setplayers] = useState<IPlayer[]>([]);
-    const [searchPlayer, setSearchPlayer] = useState<string>('');
+    const initialTournament: ITournament = {id: 0, name: '', mode: 'P'};
+    const [tournaments, setTournaments] = useState<ITournament[]>([]);
+    const [searchTournament, setSearchTournament] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    const [playerSelect, setPlayerSelect] = useState<IPlayer>(initialPlayer);
+    const [tournamentSelect, setTournamentSelect] = useState<ITournament>(initialTournament);
     const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
 
-    useEffect(() => {
-        getPlayers()
-    }, []);
+    const navigate = useNavigate();
 
-
-
-    const deletePlayer = (id: number) => {
-        axios.delete(baseURL+'/player/'+id, {})
-            .then((response)=> console.log(response))
-            .catch(error => console.error(error.message))
-            .finally(()=> {
-                setConfirm({...confirm, show: false});
-                getPlayers();
-            })
-    }
-
-
-    const getPlayers = () => {
-        axios.get(baseURL+'/player', {})
+    const getTournaments = () => {
+        axios.get(baseURL+'/tournament', {})
             .then((response)=> {
                 if (response.status === 200) {
-                    setplayers(response.data);
+                    setTournaments(response.data);
                 } else {
-                    setplayers([]);
+                    setTournaments([]);
                 }
             })
             .catch(error => console.error(error.message))
     }
 
-    console.log('setPlayer', playerSelect)
+    const deleteTournament = (id: number) => {
+        axios.delete(baseURL+'/tournament/'+id, {})
+            .then((response)=> console.log(response))
+            .catch(error => console.error(error.message))
+            .finally(()=> {
+                setConfirm({...confirm, show: false});
+                getTournaments();
+            })
+    }
+
+    useEffect(() => {
+        getTournaments()
+    }, []);
+
 
 
     return (
         <div>
-
             <InputGroup className="mb-3">
                 <Form.Control
-                    placeholder="Buscar jugador"
-                    aria-label="Buscar jugador"
+                    placeholder="Buscar torneo"
+                    aria-label="Buscar torneo"
                     aria-describedby="basic-addon2"
-                    onChange={(e) => setSearchPlayer(e.target.value)}
+                    onChange={(e) => setSearchTournament(e.target.value)}
                 />
                 <Button type="button" variant="dark" id="button-addon2" onClick={() => {
-                    getPlayers()
+                    getTournaments();
                 }}>
                     <i className="bi bi-search"></i> Buscar
                 </Button>
                 <Button variant="primary" id="button-addon2" onClick={()=> {
-                    setPlayerSelect(initialPlayer);
+                    setTournamentSelect(initialTournament);
                     setIsShowModal(true);
                 }}>
                     <i className="bi bi-plus-lg"></i> Añadir
@@ -78,14 +74,11 @@ export default function TabPlayers() {
                 <tr>
                     <th style={{width: '100px'}} className="text-center">#</th>
                     <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Equipo</th>
-                    <th>Num. Fed</th>
-                    <th>ELO</th>
+                    <th>Modo</th>
                 </tr>
                 </thead>
                 <tbody>
-                {players.filter(item => item.last_name.indexOf(searchPlayer) > -1).map((player, index) =>
+                {tournaments.filter(item => item.name.indexOf(searchTournament) > -1).map((tournament, index) =>
                     <tr key={index}>
                         <td className="text-center">
                             <Dropdown>
@@ -95,18 +88,21 @@ export default function TabPlayers() {
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={()=>{
-                                        setPlayerSelect(player);
+                                        setTournamentSelect(tournament);
                                         setIsShowModal(true);
                                     }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
                                     <Dropdown.Item onClick={()=>{
+                                        navigate(`/user/tournament/${tournament.id}`);
+                                    }}><i className="bi bi-trophy-fill"></i> Ir al torneo</Dropdown.Item>
+                                    <Dropdown.Item onClick={()=>{
                                         setConfirm({
-                                            message: `¿Deseas eliminar el jugador ${player.first_name} ${player.last_name}?`,
-                                            title: 'Eliminar jugador',
+                                            message: `¿Deseas eliminar el torneo ${tournament.name}?`,
+                                            title: 'Eliminar torneo',
                                             action: 'accept',
                                             show: true,
                                             handleClose: async (action) => {
                                                 if (action === 'ok') {
-                                                    await deletePlayer(player.id);
+                                                    await deleteTournament(tournament.id);
                                                 }
                                                 setConfirm({...confirm, show: false});
                                             }
@@ -115,26 +111,21 @@ export default function TabPlayers() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </td>
-                        <td>{player.first_name}</td>
-                        <td>{player.last_name}</td>
-                        <td>{player.team_name}</td>
-                        <td>{player.elo}</td>
-                        <td>{player.num_fed}</td>
+                        <td>{tournament.name}</td>
+                        <td>{tournament.mode}</td>
                     </tr>
                 )}
                 </tbody>
             </Table>
 
-
-            <PlayerModal title={'Jugador'} show={isShowModal} handleClose={(action)=>{
+            <TournamentModal title={'Torneo'} show={isShowModal} handleClose={(action)=>{
                 setIsShowModal(false);
                 if (action === 'ok') {
-                    getPlayers();
+                    getTournaments();
                 }
-            }} player={playerSelect}></PlayerModal>
+            }} tournament={tournamentSelect}></TournamentModal>
 
             <ModalConfirm {...confirm}></ModalConfirm>
-
         </div>
     )
 }

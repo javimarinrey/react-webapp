@@ -8,6 +8,7 @@ import UserTabCentro from "./tabs/UserTabCentro";
 import TabClubs from "./tabs/tabClubs/TabClubs";
 import TabTeams from "./tabs/tabTeams/TabTeams";
 import TabPlayers from "./tabs/tabPlayers/TabPlayers";
+import TabTournaments from "./tabs/tabTournaments/TabTournaments";
 
 export default function UserView() {
     const {user, saveUser} = React.useContext(UserContext) as UserContextType;
@@ -37,23 +38,9 @@ export default function UserView() {
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="horarios-tab" data-bs-toggle="tab"
-                                data-bs-target="#horarios-tab-pane" type="button" role="tab"
-                                aria-controls="horarios-tab-pane" aria-selected="false"><i className="bi bi-clock"></i> Horarios
-                        </button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="precios-tab" data-bs-toggle="tab"
-                                data-bs-target="#precios-tab-pane" type="button" role="tab"
-                                aria-controls="precios-tab-pane" aria-selected="false"><i
-                            className="bi bi-cash-stack"></i> Precios
-                        </button>
-                    </li>
-                    <li className="nav-item" role="presentation">
-                        <button className="nav-link" id="servicios-tab" data-bs-toggle="tab"
-                                data-bs-target="#servicios-tab-pane" type="button" role="tab"
-                                aria-controls="servicios-tab-pane" aria-selected="false"><i
-                            className="bi bi-ui-checks-grid"></i> Servicios
+                        <button className="nav-link" id="tournaments-tab" data-bs-toggle="tab"
+                                data-bs-target="#tournaments-tab-pane" type="button" role="tab"
+                                aria-controls="tournaments-tab-pane" aria-selected="false"><i className="bi bi-trophy-fill"></i> Torneos
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">
@@ -79,20 +66,10 @@ export default function UserView() {
                         <br/>
                         {tabActive === 'players' && <TabPlayers/>}
                     </div>
-                    <div className="tab-pane fade" id="horarios-tab-pane" role="tabpanel" aria-labelledby="horarios-tab"
+                    <div className="tab-pane fade" id="tournaments-tab-pane" role="tabpanel" aria-labelledby="tournaments-tab"
                          tabIndex={0}>
                         <br/>
-                        Horarios
-                    </div>
-                    <div className="tab-pane fade" id="precios-tab-pane" role="tabpanel" aria-labelledby="precios-tab"
-                         tabIndex={0}>
-                        <br/>
-                        Precios
-                    </div>
-                    <div className="tab-pane fade" id="servicios-tab-pane" role="tabpanel" aria-labelledby="servicios-tab"
-                         tabIndex={0}>
-                        <br/>
-                        Servicios
+                        <TabTournaments/>
                     </div>
                     <div className="tab-pane fade" id="cuenta-tab-pane" role="tabpanel" aria-labelledby="cuenta-tab"
                          tabIndex={0}>
