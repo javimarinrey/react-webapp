@@ -11,7 +11,7 @@ import {IPlayer} from "../../../../interfaces/IPlayer";
 
 export default function TabPlayers() {
     const baseURL = "http://localhost:3000/api";
-    const initialPlayer: IPlayer = {id: 0, first_name: '', last_name: '', team_id: 0, team_name: ''};
+    const initialPlayer: IPlayer = {id: 0, first_name: '', last_name: '', team_id: 0, team_name: '', elo: 0, num_fed: ''};
     const [players, setplayers] = useState<IPlayer[]>([]);
     const [searchPlayer, setSearchPlayer] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
@@ -47,6 +47,7 @@ export default function TabPlayers() {
             .catch(error => console.error(error.message))
     }
 
+    console.log('setPlayer', playerSelect)
 
 
     return (
@@ -79,6 +80,8 @@ export default function TabPlayers() {
                     <th>Nombre</th>
                     <th>Apellidos</th>
                     <th>Equipo</th>
+                    <th>Num. Fed</th>
+                    <th>ELO</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -115,6 +118,8 @@ export default function TabPlayers() {
                         <td>{player.first_name}</td>
                         <td>{player.last_name}</td>
                         <td>{player.team_name}</td>
+                        <td>{player.elo}</td>
+                        <td>{player.num_fed}</td>
                     </tr>
                 )}
                 </tbody>

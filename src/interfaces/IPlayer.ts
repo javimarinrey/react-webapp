@@ -4,4 +4,6 @@ export interface IPlayer {
     last_name: string;
     team_id: number;
     team_name: string;
+    num_fed: string;
+    elo: number;
 }

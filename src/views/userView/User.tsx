@@ -26,7 +26,8 @@ export default function UserView() {
                     <li className="nav-item" role="presentation">
                         <button className="nav-link" id="equipos-tab" data-bs-toggle="tab"
                                 data-bs-target="#equipos-tab-pane" type="button" role="tab" aria-controls="equipos-tab-pane"
-                                aria-selected="false" onClick={()=>setTabActive('equipos')}><i className="bi bi-shield-shaded"></i> Equipos
+                                aria-selected="false" onClick={()=>setTabActive('equipos')}><i
+                            className="bi bi-grid"></i> Equipos
                         </button>
                     </li>
                     <li className="nav-item" role="presentation">

@@ -89,6 +89,14 @@ export default function PlayerModal(props: {
                         }).map((team, index) => <option key={index} value={team.id}>{team.name}</option>)}
                     </select>
                 </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>Num. Fed</Form.Label>
+                    <Form.Control type="text" value={playerTmp?.num_fed || ''} onChange={(e) => setPlayerTmp({...playerTmp, num_fed: e.target.value})}/>
+                </Form.Group>
+                <Form.Group className="mb-3">
+                    <Form.Label>ELO</Form.Label>
+                    <Form.Control type="text" value={playerTmp?.elo || ''} onChange={(e) => setPlayerTmp({...playerTmp, elo: Number(e.target.value || 0)})}/>
+                </Form.Group>
                 {/*<Form.Group className="mb-3">
                     <Form.Label>City</Form.Label>
                     <CitiesSelect cityId={clubTmp?.city} citySelected={(cityId) => setClubTmp({...clubTmp, city: cityId}) }/>
