@@ -1,10 +1,10 @@
-import ModalBase from "../../../../components/ModalBase";
+import ModalBase from "../../../components/ModalBase";
 import React, {useEffect, useState} from "react";
 import {Form} from "react-bootstrap";
-import CitiesSelect from "../../../../components/CitiesSelect";
-import {IClub} from "../../../../interfaces/IClub";
+import CitiesSelect from "../../../components/CitiesSelect";
+import {IClub} from "../../../interfaces/IClub";
 import axios from "axios";
-import {ITournament} from "../../../../interfaces/ITournament";
+import {ITournament} from "../../../interfaces/ITournament";
 
 export default function TournamentModal(props: {
     title: string,
@@ -45,7 +45,7 @@ export default function TournamentModal(props: {
             if (tournamentTmp.id === 0) {
                 createTournament(tournamentTmp);
             } else {
-                updateTournament(tournamentTmp)
+                // updateTournament(tournamentTmp)
             }
         }
     }

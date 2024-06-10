@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Button, Container, Form, Nav, Navbar} from "react-bootstrap";
+import {Button, Container, Form, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {UserContextType} from "../interfaces/IUser";
 import {UserContext} from "../context/UserContext";
@@ -28,9 +28,22 @@ export default function Menu() {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to={'/'} active={'/' === location.pathname}>Home</Nav.Link>
-                        {user.isAuth &&
-                            <Nav.Link as={Link} to={'/user'} active={'/user' === location.pathname}><i
-                                className="bi bi-person-fill"></i> User</Nav.Link>}
+                        {/*{user.isAuth &&
+                            <Nav.Link as={Link} to={'/user'} active={'/user' === location.pathname}><i className="bi bi-person-fill"></i> User</Nav.Link>}*/}
+                        {user.isAuth && <NavDropdown active={location.pathname.indexOf('/user') > -1} title={<span><i className="bi bi-person-fill"></i> User</span>} id="basic-nav-dropdown">
+                            <NavDropdown.Item as={Link} to={"/user/clubs"}>Clubs</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={"/user/teams"}>Equipos</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={"/user/players"}>Jugadores</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to={"/user/tournaments"}>
+                                Torneos
+                            </NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={"/user/leagues"}>
+                                Ligas
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item as={Link} to={"/user"}>My Account</NavDropdown.Item>
+                        </NavDropdown> }
                     </Nav>
                     <Form className="d-flex">
                         {user.isAuth && <Button variant="danger" onClick={handlerSignOut}>Cerrar sessión</Button>}

@@ -1,10 +1,10 @@
-import ModalBase from "../../../../components/ModalBase";
+import ModalBase from "../../../components/ModalBase";
 import React, {useEffect, useState} from "react";
 import {Form} from "react-bootstrap";
-import CitiesSelect from "../../../../components/CitiesSelect";
-import {IClub} from "../../../../interfaces/IClub";
+import CitiesSelect from "../../../components/CitiesSelect";
+import {IClub} from "../../../interfaces/IClub";
 import axios from "axios";
-import {ITeam} from "../../../../interfaces/ITeam";
+import {ITeam} from "../../../interfaces/ITeam";
 
 export default function TeamModal(props: {
     title: string,

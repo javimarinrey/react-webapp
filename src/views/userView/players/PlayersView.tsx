@@ -1,49 +1,53 @@
 import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import TeamModal from "./TeamModal";
-import ModalConfirm from "../../../../components/ModalConfirm";
-import {IConfirm} from "../../../../interfaces/IConfirm";
+import {IClub} from "../../../interfaces/IClub";
+import ModalBase from "../../../components/ModalBase";
+import PlayerModal from "./PlayerModal";
+import ModalConfirm from "../../../components/ModalConfirm";
+import {IConfirm} from "../../../interfaces/IConfirm";
 import axios from "axios";
-import {ITeam} from "../../../../interfaces/ITeam";
+import {ITeam} from "../../../interfaces/ITeam";
+import {IPlayer} from "../../../interfaces/IPlayer";
 
-export default function TabTeams() {
+export default function PlayersView() {
     const baseURL = "http://localhost:3000/api";
-    const initialTeam: ITeam = {id: 0, name: '', club_id: 0, club_name: '', num_players: 0};
-    const [teams, setTeams] = useState<ITeam[]>([]);
-    const [searchTeam, setSearchTeam] = useState<string>('');
+    const initialPlayer: IPlayer = {id: 0, first_name: '', last_name: '', team_id: 0, team_name: '', elo: 0, num_fed: ''};
+    const [players, setplayers] = useState<IPlayer[]>([]);
+    const [searchPlayer, setSearchPlayer] = useState<string>('');
     const [isShowModal, setIsShowModal] = useState<boolean>(false);
-    const [teamSelect, setTeamSelect] = useState<ITeam>(initialTeam);
+    const [playerSelect, setPlayerSelect] = useState<IPlayer>(initialPlayer);
     const [confirm, setConfirm] = useState<IConfirm>({title: '', action: 'accept', show: false, handleClose: ()=>{}, message:''});
 
     useEffect(() => {
-        getTeams()
+        getPlayers()
     }, []);
 
 
 
-    const deleteTeam = (id: number) => {
-        axios.delete(baseURL+'/team/'+id, {})
+    const deletePlayer = (id: number) => {
+        axios.delete(baseURL+'/player/'+id, {})
             .then((response)=> console.log(response))
             .catch(error => console.error(error.message))
             .finally(()=> {
                 setConfirm({...confirm, show: false});
-                getTeams();
+                getPlayers();
             })
     }
 
 
-    const getTeams = () => {
-        axios.get(baseURL+'/team', {})
+    const getPlayers = () => {
+        axios.get(baseURL+'/player', {})
             .then((response)=> {
                 if (response.status === 200) {
-                    setTeams(response.data);
+                    setplayers(response.data);
                 } else {
-                    setTeams([]);
+                    setplayers([]);
                 }
             })
             .catch(error => console.error(error.message))
     }
 
+    console.log('setPlayer', playerSelect)
 
 
     return (
@@ -51,18 +55,18 @@ export default function TabTeams() {
 
             <InputGroup className="mb-3">
                 <Form.Control
-                    placeholder="Buscar equipo"
-                    aria-label="Buscar equipo"
+                    placeholder="Buscar jugador"
+                    aria-label="Buscar jugador"
                     aria-describedby="basic-addon2"
-                    onChange={(e) => setSearchTeam(e.target.value)}
+                    onChange={(e) => setSearchPlayer(e.target.value)}
                 />
                 <Button type="button" variant="dark" id="button-addon2" onClick={() => {
-                    getTeams()
+                    getPlayers()
                 }}>
                     <i className="bi bi-search"></i> Buscar
                 </Button>
                 <Button variant="primary" id="button-addon2" onClick={()=> {
-                    setTeamSelect(initialTeam);
+                    setPlayerSelect(initialPlayer);
                     setIsShowModal(true);
                 }}>
                     <i className="bi bi-plus-lg"></i> Añadir
@@ -72,14 +76,16 @@ export default function TabTeams() {
             <Table striped bordered hover size="sm">
                 <thead>
                 <tr>
-                    <th style={{width: '70px'}} className="text-center">#</th>
+                    <th style={{width: '100px'}} className="text-center">#</th>
                     <th>Nombre</th>
-                    <th>Club</th>
-                    <th style={{width: '120px'}} className="text-center"># Jugadores</th>
+                    <th>Apellidos</th>
+                    <th>Equipo</th>
+                    <th>Num. Fed</th>
+                    <th>ELO</th>
                 </tr>
                 </thead>
                 <tbody>
-                {teams.filter(item => item.name.indexOf(searchTeam) > -1).map((team, index) =>
+                {players.filter(item => item.last_name.indexOf(searchPlayer) > -1).map((player, index) =>
                     <tr key={index}>
                         <td className="text-center">
                             <Dropdown>
@@ -89,18 +95,18 @@ export default function TabTeams() {
 
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={()=>{
-                                        setTeamSelect(team);
+                                        setPlayerSelect(player);
                                         setIsShowModal(true);
                                     }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
                                     <Dropdown.Item onClick={()=>{
                                         setConfirm({
-                                            message: `¿Deseas eliminar el equipo ${team.name}?`,
-                                            title: 'Eliminar equipo',
+                                            message: `¿Deseas eliminar el jugador ${player.first_name} ${player.last_name}?`,
+                                            title: 'Eliminar jugador',
                                             action: 'accept',
                                             show: true,
                                             handleClose: async (action) => {
                                                 if (action === 'ok') {
-                                                    await deleteTeam(team.id);
+                                                    await deletePlayer(player.id);
                                                 }
                                                 setConfirm({...confirm, show: false});
                                             }
@@ -109,21 +115,23 @@ export default function TabTeams() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </td>
-                        <td>{team.name}</td>
-                        <td>{team.club_name}</td>
-                        <td className="text-center">{team.num_players}</td>
+                        <td>{player.first_name}</td>
+                        <td>{player.last_name}</td>
+                        <td>{player.team_name}</td>
+                        <td>{player.elo}</td>
+                        <td>{player.num_fed}</td>
                     </tr>
                 )}
                 </tbody>
             </Table>
 
 
-            <TeamModal title={'Club'} show={isShowModal} handleClose={(action)=>{
+            <PlayerModal title={'Jugador'} show={isShowModal} handleClose={(action)=>{
                 setIsShowModal(false);
                 if (action === 'ok') {
-                    getTeams();
+                    getPlayers();
                 }
-            }} team={teamSelect}></TeamModal>
+            }} player={playerSelect}></PlayerModal>
 
             <ModalConfirm {...confirm}></ModalConfirm>
 

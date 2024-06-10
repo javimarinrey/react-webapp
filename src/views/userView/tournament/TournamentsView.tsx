@@ -1,13 +1,13 @@
 import {Button, Dropdown, Form, InputGroup, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import {IConfirm} from "../../../../interfaces/IConfirm";
-import {ITournament} from "../../../../interfaces/ITournament";
+import {IConfirm} from "../../../interfaces/IConfirm";
+import {ITournament} from "../../../interfaces/ITournament";
 import axios from "axios";
-import ModalConfirm from "../../../../components/ModalConfirm";
+import ModalConfirm from "../../../components/ModalConfirm";
 import TournamentModal from "./TournamentModal";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
-export default function TabTournaments() {
+export default function TournamentsView() {
 
     const baseURL = "http://localhost:3000/api";
     const initialTournament: ITournament = {id: 0, name: '', mode: 'P'};
@@ -87,10 +87,10 @@ export default function TabTournaments() {
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>
-                                    <Dropdown.Item onClick={()=>{
+                                    {/*<Dropdown.Item onClick={()=>{
                                         setTournamentSelect(tournament);
                                         setIsShowModal(true);
-                                    }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>
+                                    }}><i className="bi bi-pencil-fill"></i> Editar</Dropdown.Item>*/}
                                     <Dropdown.Item onClick={()=>{
                                         navigate(`/user/tournament/${tournament.id}`);
                                     }}><i className="bi bi-trophy-fill"></i> Ir al torneo</Dropdown.Item>
@@ -111,7 +111,7 @@ export default function TabTournaments() {
                                 </Dropdown.Menu>
                             </Dropdown>
                         </td>
-                        <td>{tournament.name}</td>
+                        <td><Link to={`/user/tournament/${tournament.id}`}>{tournament.name}</Link></td>
                         <td>{tournament.mode}</td>
                     </tr>
                 )}

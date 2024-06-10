@@ -1,13 +1,13 @@
 import {Button, Dropdown, Form, InputGroup, Pagination, Table} from "react-bootstrap";
 import React, {useEffect, useState} from "react";
-import {IClub} from "../../../../interfaces/IClub";
-import ModalBase from "../../../../components/ModalBase";
+import {IClub} from "../../../interfaces/IClub";
+import ModalBase from "../../../components/ModalBase";
 import ClubModal from "./ClubModal";
-import ModalConfirm from "../../../../components/ModalConfirm";
-import {IConfirm} from "../../../../interfaces/IConfirm";
+import ModalConfirm from "../../../components/ModalConfirm";
+import {IConfirm} from "../../../interfaces/IConfirm";
 import axios from "axios";
 
-export default function TabClubs() {
+export default function ClubsView() {
     const baseURL = "http://localhost:3000/api";
     const initialClub: IClub = {id: 0, name: '', city: 0, address: '', num_players: 0, num_teams: 0};
     const [clubs, setClubs] = useState<IClub[]>([]);
