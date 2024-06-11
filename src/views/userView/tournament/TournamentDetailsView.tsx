@@ -27,6 +27,12 @@ export default function TournamentDetailsView() {
                             aria-selected="false">Rounds
                     </button>
                 </li>
+                <li className="nav-item" role="presentation">
+                    <button className="nav-link" id="classification-tab" data-bs-toggle="tab"
+                            data-bs-target="#classification-tab-pane" type="button" role="tab" aria-controls="classification-tab-pane"
+                            aria-selected="false">Classification
+                    </button>
+                </li>
             </ul>
             <div className="tab-content" id="myTabContent">
                 <div className="tab-pane fade show active" id="info-tab-pane" role="tabpanel" aria-labelledby="info-tab"
@@ -48,7 +54,11 @@ export default function TournamentDetailsView() {
                      tabIndex={0}>
                     <br/>
                     Rounds
-                </div>
+                </div><div className="tab-pane fade" id="classification-tab-pane" role="tabpanel" aria-labelledby="classification-tab"
+                           tabIndex={0}>
+                <br/>
+                classification
+            </div>
             </div>
 
         </div>

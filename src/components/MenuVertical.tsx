@@ -38,8 +38,25 @@ export default function MenuVertical() {
                                 <a className="nav-link active" aria-current="page" href="/">Home</a>
                             </li>
                             {user.isAuth &&
-                            <li className="nav-item">
-                                <a className="nav-link" href="/user"><i className="bi bi-person-fill"></i> User</a>
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle" href="/user" role="button" data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <i className="bi bi-person-fill"></i> User
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><a className="dropdown-item" href="/user/clubs">Clubs</a></li>
+                                    <li><a className="dropdown-item" href="/user/teams">Teams</a></li>
+                                    <li><a className="dropdown-item" href="/user/players">Players</a></li>
+                                    <li>
+                                        <hr className="dropdown-divider"/>
+                                    </li>
+                                    <li><a className="dropdown-item" href="/user/tournaments">Tournaments</a></li>
+                                    <li><a className="dropdown-item" href="/user/leagues">Leagues</a></li>
+                                    <li>
+                                        <hr className="dropdown-divider"/>
+                                    </li>
+                                    <li><a className="dropdown-item" href="/user">My Account</a></li>
+                                </ul>
                             </li>}
                         </ul>
                         <form className="d-flex mt-3" role="search">

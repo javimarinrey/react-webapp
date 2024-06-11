@@ -32,14 +32,14 @@ export default function Menu() {
                             <Nav.Link as={Link} to={'/user'} active={'/user' === location.pathname}><i className="bi bi-person-fill"></i> User</Nav.Link>}*/}
                         {user.isAuth && <NavDropdown active={location.pathname.indexOf('/user') > -1} title={<span><i className="bi bi-person-fill"></i> User</span>} id="basic-nav-dropdown">
                             <NavDropdown.Item as={Link} to={"/user/clubs"}>Clubs</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={"/user/teams"}>Equipos</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to={"/user/players"}>Jugadores</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={"/user/teams"}>Teams</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={"/user/players"}>Players</NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to={"/user/tournaments"}>
-                                Torneos
+                                Tournaments
                             </NavDropdown.Item>
                             <NavDropdown.Item as={Link} to={"/user/leagues"}>
-                                Ligas
+                                Leagues
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as={Link} to={"/user"}>My Account</NavDropdown.Item>

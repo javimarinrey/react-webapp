@@ -28,6 +28,7 @@ function App() {
                             <Route path='/user/teams' element={<TeamsView/>}></Route>
                             <Route path='/user/players' element={<PlayersView/>}></Route>
                             <Route path='/user/tournaments' element={<TournamentsView/>}></Route>
+                            <Route path='/user/tournament/:id' element={<TournamentDetailsView/>}></Route>
                         </Route>
                     </Routes>
                 </BrowserRouter>
